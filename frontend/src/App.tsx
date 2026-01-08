@@ -44,7 +44,7 @@ export function App() {
         <div className="brand">
           <div className="brand-title">WhatsApp PDF Delivery</div>
           <p className="brand-subtitle">
-            Generate PDF and deliver via WATI template message to any WhatsApp number
+            Generate PDF and deliver via to any WhatsApp number, sanlam testing
           </p>
         </div>
       </div>
