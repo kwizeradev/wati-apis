@@ -28,8 +28,8 @@ export function App() {
 
   useEffect(() => {
     if (submitState.status === 'success') {
-      resetForm();
       const t = setTimeout(() => {
+        resetForm();
         resetSubmit();
       }, 3000);
 
