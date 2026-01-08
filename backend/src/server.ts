@@ -4,6 +4,10 @@ import { buildApp } from './app';
 
 const app = buildApp();
 
-app.listen(env.PORT, () => {
-  logger.info(`Server listening on port ${env.PORT}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(env.PORT, () => {
+    logger.info(`Server listening on port ${env.PORT}`);
+  });
+}
+
+export default app;

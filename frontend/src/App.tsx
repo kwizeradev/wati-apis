@@ -68,7 +68,7 @@ export function App() {
                 value={String(values.amount)}
                 onChange={(e) => updateValue('amount', Number(e.target.value))}
                 placeholder="100"
-                inputMode="decimal"
+                inputMode="text"
                 disabled={isSubmitting}
               />
             </Field>
