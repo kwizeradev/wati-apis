@@ -17,7 +17,7 @@ export class DocumentsService {
       whatsappNumber: payload.whatsappNumber,
       fileName,
       fileBuffer: buffer,
-      caption: `Reference ${payload.referenceId}`,
+      fullName: payload.fullName,
     });
 
     return { referenceId: payload.referenceId };

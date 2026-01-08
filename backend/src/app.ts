@@ -3,7 +3,6 @@ import express from 'express';
 import type { Request, Response } from 'express';
 
 import { env } from './config/env';
-import { buildContactsRouter } from './modules/contacts/contacts.routes';
 import { buildDocumentsRouter } from './modules/documents/documents.routes';
 import { errorMiddleware } from './middlewares/error.middleware';
 
@@ -20,7 +19,6 @@ export function buildApp() {
 
   app.get('/health', (_req: Request, res: Response) => res.status(200).json({ status: 'ok' }));
 
-  app.use('/api/contacts', buildContactsRouter());
   app.use('/api/documents', buildDocumentsRouter());
 
   app.use(errorMiddleware);

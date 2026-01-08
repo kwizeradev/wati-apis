@@ -4,12 +4,7 @@ import FormData from 'form-data';
 import { watiConfig } from '../../config/wati.config';
 import { IntegrationError } from '../../utils/errors';
 
-import type {
-  WatiGetContactsRequest,
-  WatiGetContactsResponse,
-  WatiSendSessionFileRequest,
-  WatiSendSessionFileResponse,
-} from './wati.types';
+import type { WatiSendSessionFileRequest, WatiSendSessionFileResponse, WatiSendTemplateRequest, WatiSendTemplateResponse } from './wati.types';
 
 const watiHttp = axios.create({
   baseURL: watiConfig.baseUrl,
@@ -43,27 +38,36 @@ export async function watiSendSessionFile(
   }
 }
 
-export async function watiGetContacts(
-  request: WatiGetContactsRequest,
-): Promise<WatiGetContactsResponse> {
-  const url = '/api/v1/getContacts';
+export async function watiSendTemplate(
+  request: WatiSendTemplateRequest,
+): Promise<WatiSendTemplateResponse> {
+  const url = `/api/v1/sendTemplateMessage`;
+
+  console.log('WATI Send Template Request:', request.parameters);
 
   try {
-    const response = await watiHttp.get(url, {
-      params: {
-        pageSize: request.pageSize,
-        pageNumber: request.pageNumber,
-        name: request.name,
-        attribute: request.attribute,
-        createdDate: request.createdDate,
+    const response = await watiHttp.post(
+      url,
+      {
+        template_name: request.template_name,
+        broadcast_name: request.broadcast_name,
+        parameters: request.parameters,
       },
-      headers: {
-        Authorization: `Bearer ${watiConfig.token}`,
+      {
+        params: {
+          whatsappNumber: request.whatsappNumber,
+          tenantId : watiConfig.tenantId,
+        },
+        headers: {
+          Authorization: `Bearer ${watiConfig.token}`,
+          'Content-Type': 'application/json',
+        },
       },
-    });
+    );
 
-    return response.data as WatiGetContactsResponse;
-  } catch {
-    throw new IntegrationError('Failed to fetch contacts via WATI');
+    return response.data as WatiSendTemplateResponse;
+  } catch (error) {
+    console.error('WATI Template Message Error:', error);
+    throw new IntegrationError('Failed to send template message via WATI');
   }
 }

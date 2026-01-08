@@ -1,5 +1,6 @@
 import { useForm } from './hooks/useForm';
 import { useSubmit } from './hooks/useSubmit';
+import { useEffect } from 'react';
 import { Field } from './components/Field';
 import { ReferenceIdInput } from './components/ReferenceIdInput';
 import { FormActions } from './components/FormActions';
@@ -25,13 +26,25 @@ export function App() {
     resetSubmit();
   };
 
+  useEffect(() => {
+    if (submitState.status === 'success') {
+      resetForm();
+      const t = setTimeout(() => {
+        resetSubmit();
+      }, 3000);
+
+      return () => clearTimeout(t);
+    }
+    return undefined;
+  }, [submitState.status, resetForm, resetSubmit]);
+
   return (
     <div className="container">
       <div className="header">
         <div className="brand">
           <div className="brand-title">WhatsApp PDF Delivery</div>
           <p className="brand-subtitle">
-            Generate a real PDF from form data and deliver it using WATI WhatsApp APIs.
+            Generate PDF and deliver via WATI template message to any WhatsApp number
           </p>
         </div>
       </div>
@@ -49,7 +62,13 @@ export function App() {
           </Field>
 
           <Field label="WhatsApp Number" error={errors.whatsappNumber}>
-            <input className="input" value={values.whatsappNumber} disabled />
+            <input
+              className="input"
+              value={values.whatsappNumber}
+              onChange={(e) => updateValue('whatsappNumber', e.target.value)}
+              placeholder="250712345678"
+              disabled={isSubmitting}
+            />
           </Field>
 
           <div className="grid-two-columns">

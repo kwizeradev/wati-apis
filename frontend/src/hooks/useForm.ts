@@ -2,12 +2,10 @@ import { useMemo, useState } from 'react';
 import { documentFormSchema } from '../api/documents';
 import type { DocumentFormValues } from '../api/documents';
 
-const FIXED_WHATSAPP_NUMBER = '250787533418';
-
 export function useForm() {
   const [values, setValues] = useState<DocumentFormValues>({
     fullName: '',
-    whatsappNumber: FIXED_WHATSAPP_NUMBER,
+    whatsappNumber: '',
     referenceId: '',
     amount: 0,
     description: '',
@@ -50,7 +48,7 @@ export function useForm() {
   const resetForm = () => {
     setValues({
       fullName: '',
-      whatsappNumber: FIXED_WHATSAPP_NUMBER,
+      whatsappNumber: '',
       referenceId: '',
       amount: 0,
       description: '',
